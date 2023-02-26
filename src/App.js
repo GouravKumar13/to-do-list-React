@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
+import Todolist from "./components/Todolist";
+import Todoform from "./components/Todoform";
 
 const App = () => {
   const [todo, setTodo] = useState("");
@@ -16,8 +18,8 @@ const App = () => {
       );
       setTodos(updatedTodo);
       setEditId(0);
-      setTodo("")
-      return
+      setTodo("");
+      return;
     }
     if (todo !== "") {
       setTodos([{ id: `${todo}-${Date.now()}`, todo }, ...todos]);
@@ -37,35 +39,17 @@ const App = () => {
     <div className="App">
       <div className="container">
         <h1>TODO LIST APP</h1>
-        <form onSubmit={handleSubmit}>
-          <input
-            value={todo}
-            type="text"
-            onChange={(e) => setTodo(e.target.value)}
-          />
-          <button type="submit">
-            {editId ? (
-              <i class="fa-solid fa-pen"></i>
-            ) : (
-              <i class="fa-solid fa-plus"></i>
-            )}
-          </button>
-        </form>
-        <ol className="item-box">
-          {todos.map((t) => (
-            <li>
-              <span className="p2" key={t.id}>
-                {t.todo}
-              </span>
-              <button className="p2" onClick={() => handleEdit(t.id)}>
-                <i class="fa-solid fa-pen"></i>
-              </button>
-              <button className="p2" onClick={() => handleDelete(t.id)}>
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            </li>
-          ))}
-        </ol>
+        <Todoform
+          handleSubmit={handleSubmit}
+          editId={editId}
+          todo={todo}
+          setTodo={setTodo}
+        />
+        <Todolist
+          todos={todos}
+          handleEdit={handleEdit}
+          handleDelete={handleDelete}
+        />
       </div>
     </div>
   );
